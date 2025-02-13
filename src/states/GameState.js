@@ -196,18 +196,14 @@ export class GameState {
         // Update character with hazards included
         this.character.update(
             this.controls.keysPressed,
-            this.controls.lastKeyPressed,
             this.levelData.MapLayout,
-            this.levelData.Mobs,
             this.levelData.Signs,
             this.levelData.Exits,
             this.levelData.Tools,
             this.controls.moveX,
             this.controls.moveZ,
             this.changeLevel,
-            this.stateManager,
-            this.levelData.Hazards,
-            this.levelData.Waters
+            this.stateManager
         );
         this.character.yaw = this.controls.yaw;
         this.character.pitch = this.controls.pitch;
@@ -221,15 +217,9 @@ export class GameState {
             this.levelData = [];
             this.resetLevel();
         }
-        /*
-        if(this.character.health == 0){
-            while (this.stateManager.scene.children.length > 0) {
-                this.stateManager.scene.remove(this.stateManager.scene.children[0]);
-            }
-            this.levelData = [];
-            this.stateManager.changeState(GameOverState);
-        }*/
-        let cameraOffset = new THREE.Vector3(0, 1, 5);
+
+        
+        const cameraOffset = new THREE.Vector3(0, 1, 5);
 
         if(this.controls.keysPressed.f){
             cameraOffset = new THREE.Vector3(0, 2, 0);
@@ -250,7 +240,7 @@ export class GameState {
                 this.character.characterMesh.position.y + offsetY,
                 this.character.characterMesh.position.z + offsetZ
             );
-            console.log(targetCameraPosition);
+            //console.log(targetCameraPosition);
             const deltaCameraPosition = this.character.characterMesh.position.clone().sub(targetCameraPosition);
             const angleCamera = this.character.angle;
 

@@ -11,17 +11,19 @@ const StoneFloorMaterial = new THREE.MeshPhysicalMaterial({
     metalness: 0,
 });
 
-export class StoneFLoor {
+export class StoneFloor {
     constructor(scene, x, y, z) {
         this.scene = scene;
         this.MapLayoutMesh = null;
+        this.friction = 10;
+        this.normal = new THREE.Vector3(0,1,0);
 
-        const stoneFLoor = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), StoneFloorMaterial);
-        stoneFLoor.castShadow = true;
-        stoneFLoor.receiveShadow = true;
-        stoneFLoor.position.set(x, y, z);
-        this.MapLayoutMesh = stoneFLoor;
-        scene.add(stoneFLoor);
+        const stoneFloor = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), StoneFloorMaterial);
+        stoneFloor.castShadow = true;
+        stoneFloor.receiveShadow = true;
+        stoneFloor.position.set(x, y, z);
+        this.MapLayoutMesh = stoneFloor;
+        scene.add(stoneFloor);
 
     }
 

@@ -3,7 +3,9 @@ import * as THREE from 'three';
 import { Model } from '../Models.js';
 import { AudioPlayer } from '/src/Audio.js';
 
-import CHARACTER from '/assets/models/character.glb'
+import CHARACTER from '/assets/models/character.glb';
+import PENGUIN from '/assets/models/basicPenguin.glb';
+
 const clock = new THREE.Clock();
 
 export class Character {
@@ -18,18 +20,8 @@ export class Character {
         this.velocityX = 0;
         this.velocityZ = 0;
 
-        this.isDashing = false;
-        this.dashSpeed = 0.275;
-        this.dashDuration = 200;
-        this.dashCooldown = 2500;
-        this.lastDashTime = 0;
 
-        this.isJumpAttacking = false;
-        this.jumpAttackCooldown = 1000; // 1 second cooldown
-        this.lastJumpAttackTime = 0;
-        this.jumpAttackDuration = 300;
-        this.jumpAttackBoost = 0.1;
-        this.jumpAttackForwardSpeed = 0.3;
+
     }
 
     async init() {
@@ -85,167 +77,14 @@ export class Character {
         this.backwardVector = new THREE.Vector3(0, 0, 2);
         this.collisionDistance = 0.25;
 
-        // Stats
-        this.health = 5;
-        this.updateHealthDisplay();
-        this.lastMobCollisionTime = 0;
-
         this.lastDirection = new THREE.Vector3(0, 0, -1);
-        this.lastAttackTime = 0;
-        this.currentHitbox = 0;
 
         // Add the character to the scene
         this.scene.add(this.characterMesh);
 
-        this.createAttackHitbox = this.createAttackHitbox.bind(this);
-
         this.heldItem = null;
         this.pickupCooldown = 500;
         this.lastPickupTime = 0;
-    }
-
-    performJumpAttack(currentTime, horizontalDirection) {
-        if (currentTime - this.lastJumpAttackTime < this.jumpAttackCooldown || 
-            this.isJumpAttacking || 
-            this.isOnGround) {
-            return;
-        }
-
-        this.isJumpAttacking = true;
-        this.lastJumpAttackTime = currentTime;
-
-        this.moveY = this.jumpAttackBoost;
-        this.isOnGround = false;
-
-        const direction = this.lastDirection.clone().normalize();
-        this.velocityX = direction.x * this.jumpAttackForwardSpeed;
-        this.velocityZ = direction.z * this.jumpAttackForwardSpeed;
-
-        const hitboxMaterial = new THREE.MeshBasicMaterial({ 
-            color: 0xff0000, 
-            wireframe: true,
-            transparent: true,
-            opacity: 0.5
-        });
-
-        let hitboxGeometry = null;
-
-        if(horizontalDirection == 1) {
-            hitboxGeometry = new THREE.BoxGeometry(2, 1, 1); // Width, Height, Depth
-        } else {
-            hitboxGeometry = new THREE.BoxGeometry(1, 1, 2);
-        }
-
-        const hitboxMesh = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
-
-        hitboxMesh.position.copy(this.characterMesh.position);
-        const offset = this.lastDirection.clone().normalize().multiplyScalar(1.5);
-        hitboxMesh.position.add(offset);
-        hitboxMesh.position.y -= 0.5;
-        hitboxMesh.rotation.y = this.pitch;
-
-        this.scene.add(hitboxMesh);
-        this.currentHitbox = hitboxMesh;
-
-        setTimeout(() => {
-            this.scene.remove(hitboxMesh);
-            this.currentHitbox = null;
-            this.isJumpAttacking = false;
-        }, this.jumpAttackDuration);
-    }
-
-    performDashAttack(currentTime) {
-        if (currentTime - this.lastDashTime < this.dashCooldown || this.isDashing) {
-            return;
-        }
-
-        this.isDashing = true;
-        this.lastDashTime = currentTime;
-
-        const hitboxMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
-        const hitboxGeometry = new THREE.BoxGeometry(2.5, 1.5, 2.5);
-        const hitboxMesh = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
-
-        hitboxMesh.position.copy(this.characterMesh.position);
-        const offset = this.lastDirection.clone().normalize().multiplyScalar(2);
-        hitboxMesh.position.add(offset);
-        hitboxMesh.rotation.y = this.pitch;
-
-        this.scene.add(hitboxMesh);
-        this.currentHitbox = hitboxMesh;
-
-        setTimeout(() => {
-            this.scene.remove(hitboxMesh);
-            this.currentHitbox = null;
-            this.isDashing = false;
-        }, this.dashDuration);
-
-    }
-
-    createAttackHitbox(horizontalDirection) {
-        console.log("attack");
-        this.audio.playAttackSound();
-        // Create a visible hitbox with red color
-        const hitboxMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
-        let hitboxGeometry = null;
-        
-        // Create hitbox based on the direction the character is facing
-        if(horizontalDirection == 1) {
-            hitboxGeometry = new THREE.BoxGeometry(2, 1, 1); // Width, Height, Depth
-        } else {
-            hitboxGeometry = new THREE.BoxGeometry(1, 1, 2);
-        }
-        
-        const hitboxMesh = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
-
-        hitboxMesh.position.copy(this.characterMesh.position);
-        const offset = this.lastDirection.clone().normalize();
-        hitboxMesh.position.add(offset);
-    
-        // Match the character's rotation
-        hitboxMesh.rotation.y = this.pitch;
-    
-        // Add hitbox to the scene
-        this.scene.add(hitboxMesh);
-        this.currentHitbox = hitboxMesh;
-    
-        // Remove hitbox after a short duration
-        setTimeout(() => {
-            this.scene.remove(hitboxMesh);
-            this.currentHitbox = null;
-        }, 200);
-        
-        return hitboxMesh;
-    }
-
-    checkHitboxCollision(mob) {
-        if (!this.currentHitbox) return false; // No hitbox present
-
-        const hitboxBoundingBox = new THREE.Box3().setFromObject(this.currentHitbox);
-        const mobBoundingBox = new THREE.Box3().setFromObject(mob.mobMesh);
-        
-        return hitboxBoundingBox.intersectsBox(mobBoundingBox);
-    }
-
-    // Method to change the health value and update the health display
-    updateHealth(health) {
-        this.health = health;
-        this.updateHealthDisplay();  // Update the heart display
-    }
-
-    // Update the health display by adding/removing heart elements
-    updateHealthDisplay() {
-        const healthContainer = document.getElementById("health-container");
-
-        // Clear the existing hearts
-        healthContainer.innerHTML = "";
-
-        // Add hearts based on current health
-        for (let i = 0; i < this.health; i++) {
-            const heart = document.createElement("div");
-            heart.classList.add("heart");  // Add the class for styling
-            healthContainer.appendChild(heart);
-        }
     }
 
     // Show the message container when collision with sign occurs
@@ -259,17 +98,17 @@ export class Character {
     }
 
     // Method to update character position each frame
-    update(keysPressed, LastKeyPressed, MapLayout, Mobs, Signs, Exit, Tools, moveX, moveZ, changeLevel, stateManager, Hazards, Waters) {
+    update(keysPressed, MapLayout, Signs, Exit, Tools, moveX, moveZ, changeLevel, stateManager) {
 
         const currentTime = Date.now();
         let deltaTime = clock.getDelta();
         this.levelData = MapLayout;
         this.signs = Signs;
-        this.Mobs = Mobs;
         this.Exit = Exit;
         this.Tools = Tools;
-        this.Waters = Waters;
-        this.Hazards = Hazards || [];
+
+        const forward = new THREE.Vector3(-Math.sin(this.yaw), 0, Math.cos(this.yaw)); // Forward direction
+        const right = new THREE.Vector3(Math.cos(this.yaw), 0, Math.sin(this.yaw)); // Right direction
 
         /*
         const normalizepitch = (pitch) => ((pitch + Math.PI) % (2 * Math.PI)) - Math.PI;
@@ -318,7 +157,7 @@ export class Character {
         }
 
         // Collision detection in all directions
-        this.raycaster.set(this.characterMesh.position, this.forwardVector);
+        this.raycaster.set(this.characterMesh.position, forward);
         const intersectsForward = this.raycaster.intersectObjects(this.levelData);
         if (intersectsForward.length > 0 && intersectsForward[0].distance <= this.collisionDistance) {
             canMoveForward = false;
@@ -329,7 +168,7 @@ export class Character {
             changeLevel();
         }
 
-        this.raycaster.set(this.characterMesh.position, this.backwardVector);
+        this.raycaster.set(this.characterMesh.position, forward);
         const intersectsBackward = this.raycaster.intersectObjects(this.levelData);
         if (intersectsBackward.length > 0 && intersectsBackward[0].distance <= this.collisionDistance) {
             canMoveBackward = false;
@@ -340,7 +179,7 @@ export class Character {
             changeLevel();
         }
 
-        this.raycaster.set(this.characterMesh.position, this.leftVector);
+        this.raycaster.set(this.characterMesh.position, right);
         const intersectsLeft = this.raycaster.intersectObjects(this.levelData);
         if (intersectsLeft.length > 0 && intersectsLeft[0].distance <= this.collisionDistance) {
             canMoveLeft = false;
@@ -351,7 +190,7 @@ export class Character {
             changeLevel();
         }
 
-        this.raycaster.set(this.characterMesh.position, this.rightVector);
+        this.raycaster.set(this.characterMesh.position, right);
         const intersectsRight = this.raycaster.intersectObjects(this.levelData);
         if (intersectsRight.length > 0 && intersectsRight[0].distance <= this.collisionDistance) {
             canMoveRight = false;
@@ -400,18 +239,10 @@ export class Character {
             this.audio.stopRunSound();
         }
 
-        if(currentTime - this.lastAttackTime < 400){
-            this.moveX = 0;
-            this.moveZ = 0;
-        }
-
         const direction = new THREE.Vector2(this.moveX, this.moveZ);
         direction.normalize().multiplyScalar(this.moveSpeed);
         this.moveZ = tempZ;
         this.moveX = tempX;
-
-        const forward = new THREE.Vector3(-Math.sin(this.yaw), 0, Math.cos(this.yaw)); // Forward direction
-        const right = new THREE.Vector3(Math.cos(this.yaw), 0, Math.sin(this.yaw)); // Right direction
 
         // Combine forward and right movements based on input direction
         const movement = new THREE.Vector3(

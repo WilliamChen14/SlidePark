@@ -1,25 +1,30 @@
 import * as THREE from 'three';
 
-import { StoneFLoor } from '../entities/StoneFloor.js';
+import { StoneFloor } from '../entities/StoneFloor.js';
+
+import { SlickSlope } from '../entities/SlickSlope.js';
 
 
 export class BaseLevel {
     constructor(scene) {
         this.scene = scene;
         this.MapLayout = [];
-        this.Mobs = [];
         this.Exits = [];
         this.Signs = [];
         this.Tools = [];
-        this.Hazards = []; // New array to track fire hazards
-        this.Waters = [];
         this.Updatables = [];
     }
 
     addStoneFloor(x, y, z) {
-        const stoneFloor = new StoneFLoor(this.scene, x, y, z);
+        const stoneFloor = new StoneFloor(this.scene, x, y, z);
         this.MapLayout.push(stoneFloor.MapLayoutMesh);
         return stoneFloor;
+    }
+    
+    addSlickSlope(x, y, z) {
+        const newSlope = new SlickSlope(this.scene, x, y, z);
+        this.MapLayout.push(newSlope.MapLayoutMesh);
+        return newSlope;
     }
 
     addGrid(startX, endX, startZ, endZ, elementCallback) {
@@ -43,22 +48,14 @@ export class BaseLevel {
     getLevelData() {
         return {
             MapLayout: this.MapLayout,
-            Mobs: this.Mobs,
             Signs: this.Signs,
             Exits: this.Exits,
             Tools: this.Tools,
-            Hazards: this.Hazards, // Include hazards in level data
-            Waters: this.Waters
         };
     }
 
     update() {
         // Update all hazards (fires)
-        this.Hazards.forEach(hazard => {
-            if (hazard.update) {
-                hazard.update();
-            }
-        });
         this.Updatables.forEach(updateable => {
             if (updateable.update) {
                 updateable.update();
