@@ -3,8 +3,8 @@ Our project is inspired by the recently released Zelda: Echoes of Wisdom, a 3D g
 
 ## To run
 ```
-git clone https://github.com/WilliamChen14/ForestOfTrials.git
-cd ForestOfTrials
+git clone https://github.com/WilliamChen14/SlidePark.git
+cd SlidePark
 npm i
 npx vite
 ```
