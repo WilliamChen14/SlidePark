@@ -218,8 +218,8 @@ export class GameState {
             this.resetLevel();
         }
 
-        
-        const cameraOffset = new THREE.Vector3(0, 1, 5);
+
+        let cameraOffset = new THREE.Vector3(0, 1, 5);
 
         if(this.controls.keysPressed.f){
             cameraOffset = new THREE.Vector3(0, 2, 0);
