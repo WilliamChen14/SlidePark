@@ -27,11 +27,11 @@ export class Character {
     async init() {
         // Create a group to hold all parts of the character
         this.characterMesh = new THREE.Group();
-        await this.model.loadModel(CHARACTER, {
+        await this.model.loadModel(PENGUIN, {
             transformOffset: {
-                x: 0.52,
-                y: -0.5,
-                z: 0.85,
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
             },
             rotationOffset: {
                 x: 0,
@@ -110,31 +110,11 @@ export class Character {
         const forward = new THREE.Vector3(-Math.sin(this.yaw), 0, Math.cos(this.yaw)); // Forward direction
         const right = new THREE.Vector3(Math.cos(this.yaw), 0, Math.sin(this.yaw)); // Right direction
 
-        /*
-        const normalizepitch = (pitch) => ((pitch + Math.PI) % (2 * Math.PI)) - Math.PI;
-
-        let targetpitch = Math.atan2(this.lastDirection.x, this.lastDirection.z);
-        targetpitch = normalizepitch(targetpitch)
-        this.pitch = normalizepitch(this.pitch)
-
-        let deltapitch = normalizepitch(targetpitch - this.pitch);
-        this.pitch += this.spinSpeed * deltapitch * deltaTime;*/
         this.characterMesh.rotation.y = -this.yaw + Math.PI;
             
 
         this.signs.forEach(obj => obj.checkSignCollision(this.characterMesh));
 
-        /*
-        if (keysPressed.m && !this.isDashing) {
-            this.performDashAttack(currentTime);
-        }
-
-        if (this.isDashing) {
-            const dashDirection = this.lastDirection.clone().normalize();
-            this.velocityX = dashDirection.x * this.dashSpeed;
-            this.velocityZ = dashDirection.z * this.dashSpeed;
-        }
-            */
         
 
         
