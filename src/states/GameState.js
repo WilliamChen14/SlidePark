@@ -228,6 +228,10 @@ export class GameState {
             cameraOffset = new THREE.Vector3(0, 2, 0);
         }
 
+        if(this.controls.keysPressed.p){
+            cameraOffset = new THREE.Vector3(0, 1, 8);
+        }
+
 
         // debug camera is activated with "["
         if (!this.controls.debugCameraMode) {
@@ -258,11 +262,6 @@ export class GameState {
             // Clamp pitch to prevent flipping (e.g., -80° to 80°)
             this.stateManager.camera.rotation.set(-this.character.pitch, -this.character.yaw, 0, 'YXZ');
 
-            //Yeah i have no idea dont really mess with it i guess lol
-            if(this.controls.keysPressed.p){
-                this.character.characterMesh.rotateY(Math.PI / 2);
-                this.controls.keysPressed.p = !this.controls.keysPressed.p;
-            }
         }
     }
 }

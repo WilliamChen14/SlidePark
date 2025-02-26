@@ -9,6 +9,13 @@ export class SlideHill extends BaseLevel {
         //this.addWallsAndFloorsAroundGrid(2, 5, 2, 5);
         this.addSlickSlope(1, 1, 1);
         this.addStoneFloor(5,1,2);
+        this.addHillBlock(1, 1, 6);
+
+
+
+        await this.addHill(0, -11, -15, Math.PI);
+
+
 
         return this.getLevelData();
     }

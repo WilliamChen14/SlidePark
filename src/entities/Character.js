@@ -30,7 +30,7 @@ export class Character {
         await this.model.loadModel(PENGUIN, {
             transformOffset: {
                 x: 0.0,
-                y: 0.2,
+                y: 0.1,
                 z: 0.0,
             },
             rotationOffset: {
@@ -111,6 +111,10 @@ export class Character {
         const right = new THREE.Vector3(Math.cos(this.yaw), 0, Math.sin(this.yaw)); // Right direction
 
         this.characterMesh.rotation.y = -this.yaw + Math.PI;
+
+        if(keysPressed.p){
+            this.characterMesh.rotation.y = -this.yaw;
+        }
             
 
         this.signs.forEach(obj => obj.checkSignCollision(this.characterMesh));

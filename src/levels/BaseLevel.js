@@ -3,6 +3,11 @@ import * as THREE from 'three';
 import { StoneFloor } from '../entities/StoneFloor.js';
 
 import { SlickSlope } from '../entities/SlickSlope.js';
+import { Tree } from '../entities/Tree.js';
+import { Hill } from '../entities/Hill.js';
+
+import { Rocks } from '../entities/Rocks.js';
+import { HillBlock } from '../entities/HillBlock.js';
 
 
 export class BaseLevel {
@@ -21,10 +26,37 @@ export class BaseLevel {
         return stoneFloor;
     }
     
+    addHillBlock(x, y, z) {
+        const hillBlock = new HillBlock(this.scene, x, y, z);
+        this.MapLayout.push(hillBlock.MapLayoutMesh);
+        return hillBlock;
+    }
+    
     addSlickSlope(x, y, z) {
         const newSlope = new SlickSlope(this.scene, x, y, z);
         this.MapLayout.push(newSlope.MapLayoutMesh);
         return newSlope;
+    }
+
+    addTree(x, y, z) {
+        const tree = new Tree(this.scene, x, y, z);
+        this.MapLayout.push(tree.mapLayoutMesh);
+        return tree;
+    }
+
+
+
+    async addRocks(x, y, z, rotation) {
+        const fireplace = new Rocks(this.scene, x, y, z, rotation);
+        await fireplace.init();
+        //this.MapLayout.push(fireplace.MapLayoutMesh);
+        return fireplace;
+    }
+
+    async addHill(x, y, z, rotation) {
+        const fireplace = new Hill(this.scene, x, y, z, rotation);
+        await fireplace.init();
+        return fireplace;
     }
 
     addGrid(startX, endX, startZ, endZ, elementCallback) {

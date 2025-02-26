@@ -124,6 +124,13 @@ export class InstructionState {
                         <p>Use <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> keys to move your character.</p>
                     </div>
                 </div>
+                <div class="instruction-section">
+                    <div class="section-icon">${this.getMovementIcon()}</div>
+                    <div class="section-content">
+                        <h3>Basic Camera Movement</h3>
+                        <p>Use your mouse to position your camera.</p>
+                    </div>
+                </div>
 
                 <div class="instruction-section">
                     <div class="section-icon">${this.getJumpIcon()}</div>
