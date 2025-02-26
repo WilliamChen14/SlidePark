@@ -183,4 +183,24 @@ const MATERIALS = {
         roughness: 0.5,
         metalness: 0,
     }),
+    "PenguinBeakMaterial": new THREE.MeshPhysicalMaterial({
+        color: 0xE7A22C,
+        roughness: 0.8,
+        metalness: 0,
+    }),
+    "PenguinBodyMaterial": new THREE.MeshPhysicalMaterial({
+        color: 0x0D989C,
+        roughness: 0.8,
+        metalness: 0,
+    }),
+    "PenguinBellyMaterial": new THREE.MeshPhysicalMaterial({
+        color: 0xFFFFFF,
+        roughness: 0.8,
+        metalness: 0,
+    }),
+    "PenguinEyeMaterial": new THREE.MeshPhysicalMaterial({
+        color: 0x404040,
+        roughness: 0.8,
+        metalness: 0,
+    }),
 };

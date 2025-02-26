@@ -4,7 +4,7 @@ import { Model } from '../Models.js';
 import { AudioPlayer } from '/src/Audio.js';
 
 import CHARACTER from '/assets/models/character.glb';
-import PENGUIN from '/assets/models/basicPenguin.glb';
+import PENGUIN from '../../assets/models/basicPenguinText.glb';
 
 const clock = new THREE.Clock();
 
@@ -30,12 +30,12 @@ export class Character {
         await this.model.loadModel(PENGUIN, {
             transformOffset: {
                 x: 0.0,
-                y: 0.0,
+                y: 0.2,
                 z: 0.0,
             },
             rotationOffset: {
                 x: 0,
-                y: -Math.PI / 2,
+                y: Math.PI / 2,
                 z: 0,
             },
             scaleOffset: {

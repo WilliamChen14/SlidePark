@@ -65,7 +65,7 @@ export class GameState {
 
 
     setupLighting() {
-        const sunLight = new THREE.DirectionalLight(0xffffff, 5);
+        const sunLight = new THREE.DirectionalLight(0xffffff, 4);
         sunLight.castShadow = true;
         sunLight.position.set(2, 10, 2);
 
@@ -86,8 +86,11 @@ export class GameState {
         sunLight.shadow.camera.near = 0.5;
         sunLight.shadow.camera.far = size * 3;
 
-        const ambientLight = new THREE.AmbientLight(0x5f8fff, 1.6);
-        ambientLight.position.set(-5, 5, 5);
+        const ambientLight = new THREE.AmbientLight(0x404040, 70);
+        ambientLight.position.set(-5, 2, 5);
+        const ambientLight2 = new THREE.AmbientLight(0x404040, 10);
+        ambientLight2.position.set(5, 2, -5);
+        this.stateManager.scene.add(ambientLight2);
         this.stateManager.scene.add(ambientLight);
     }
 
@@ -225,6 +228,7 @@ export class GameState {
             cameraOffset = new THREE.Vector3(0, 2, 0);
         }
 
+
         // debug camera is activated with "["
         if (!this.controls.debugCameraMode) {
             //this.stateManager.camera.position += new THREE.Vector3(1,1,1);
@@ -253,6 +257,12 @@ export class GameState {
             
             // Clamp pitch to prevent flipping (e.g., -80° to 80°)
             this.stateManager.camera.rotation.set(-this.character.pitch, -this.character.yaw, 0, 'YXZ');
+
+            //Yeah i have no idea dont really mess with it i guess lol
+            if(this.controls.keysPressed.p){
+                this.character.characterMesh.rotateY(Math.PI / 2);
+                this.controls.keysPressed.p = !this.controls.keysPressed.p;
+            }
         }
     }
 }
