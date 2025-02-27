@@ -8,6 +8,7 @@ import { Hill } from '../entities/Hill.js';
 
 import { Rocks } from '../entities/Rocks.js';
 import { HillBlock } from '../entities/HillBlock.js';
+import { SlideBlock } from '../entities/SlideBlock.js';
 
 
 export class BaseLevel {
@@ -42,6 +43,12 @@ export class BaseLevel {
         const tree = new Tree(this.scene, x, y, z);
         this.MapLayout.push(tree.mapLayoutMesh);
         return tree;
+    }
+
+    addSlideBlock(x, y, z) {
+        const slideBlock = new SlideBlock(this.scene, x, y, z);
+        this.MapLayout.push(slideBlock.MapLayoutMesh);
+        return slideBlock;
     }
 
 
