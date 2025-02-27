@@ -44,7 +44,6 @@ export class Controls {
     }
 
     onMouseMovement(event) {
-        console.log(event);
         this.yaw += event.movementX * this.sensitivity;
         this.pitch += event.movementY * this.sensitivity;
         this.pitch = Math.max(-Math.PI / 3, Math.min(Math.PI / 3, this.pitch));

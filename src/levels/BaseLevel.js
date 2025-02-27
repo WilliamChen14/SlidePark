@@ -8,6 +8,7 @@ import { Hill } from '../entities/Hill.js';
 
 import { Rocks } from '../entities/Rocks.js';
 import { HillBlock } from '../entities/HillBlock.js';
+import { Tube } from '../entities/Tube.js';
 
 
 export class BaseLevel {
@@ -25,11 +26,17 @@ export class BaseLevel {
         this.MapLayout.push(stoneFloor.MapLayoutMesh);
         return stoneFloor;
     }
-    
+
     addHillBlock(x, y, z) {
         const hillBlock = new HillBlock(this.scene, x, y, z);
         this.MapLayout.push(hillBlock.MapLayoutMesh);
         return hillBlock;
+    }
+
+    addTube(x, y, z) {
+        const tube = new Tube(this.scene, x, y, z);
+        this.MapLayout.push(tube.MapLayoutMesh);
+        return tube;
     }
     
     addSlickSlope(x, y, z) {
