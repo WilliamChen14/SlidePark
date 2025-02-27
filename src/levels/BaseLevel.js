@@ -11,6 +11,8 @@ import { HillBlock } from '../entities/HillBlock.js';
 
 import { House } from '../entities/House.js';
 import { SlideBlock } from '../entities/SlideBlock.js';
+import { Mountain } from '../entities/Mountain.js';
+
 
 
 
@@ -54,7 +56,11 @@ export class BaseLevel {
         return slideBlock;
     }
 
-
+    async addMountain(x, y, z, rotation) {
+        const mountain = new Mountain(this.scene, x, y, z, rotation);
+        await mountain.init();
+        return mountain;
+    }
 
     async addRocks(x, y, z, rotation) {
         const fireplace = new Rocks(this.scene, x, y, z, rotation);

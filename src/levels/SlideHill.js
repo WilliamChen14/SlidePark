@@ -9,6 +9,9 @@ export class SlideHill extends BaseLevel {
         this.addRocks(10, 1, 1, 0);
         this.addHouse(10, 1, 8, 0);
 
+        this.addMountain(27.6, 1, 7.8, 0);
+        this.addMountain(-10.6, 1, 7.8, 0);
+
         this.addWallsAndFloorsAroundGrid2(-22, 40, 59 + floorSize, floorSize + 60 + floorSize, -19);
         this.addStoneFloor(5,1,2);
         this.addStoneFloor(5,1,3);
