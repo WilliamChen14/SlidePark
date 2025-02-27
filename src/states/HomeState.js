@@ -19,10 +19,11 @@ export class HomeState {
             this.homeScreenElement.style.height = '100%';
             this.homeScreenElement.style.zIndex = '1';
             this.homeScreenElement.style.pointerEvents = 'auto';
-            this.homeScreenElement.style.background = '#b8c5b9'; // Set background as per provided HTML
+            this.homeScreenElement.style.background = 'linear-gradient(to bottom, #b8e0f2, #e0f7fa)'; // Set background as per provided HTML
 
             // Set the HTML structure (excluding <html>, <head>, and <body>)
             this.homeScreenElement.innerHTML = `
+                <div class="snowflakes"></div>
                 <div class="trees-container">
                     <!-- SVG Trees -->
                     <svg class="tree" style="left: 5%" viewBox="0 0 200 300">
@@ -84,7 +85,7 @@ export class HomeState {
                         <div class="chain"></div>
                         <div class="chain"></div>
                     </div>
-                    <h1 class="title">Forest of Trials</h1>
+                    <h1 class="title">Giant Slide Builder</h1>
                 </div>
 
                 <div class="mushroom-container">
@@ -107,6 +108,31 @@ export class HomeState {
             // Add styles
             const styleElement = document.createElement('style');
             styleElement.textContent = `
+                @keyframes fall {
+                    0% { transform: translateY(-10vh) scale(1); opacity: 1; }
+                    100% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+                }
+
+                .snowflakes {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    pointer-events: none;
+                    overflow: hidden;
+                }
+
+                .snowflake {
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+                    background: white;
+                    border-radius: 50%;
+                    opacity: 0.8;
+                    animation: fall linear infinite;
+                }
+                
                 @import url('https://fonts.googleapis.com/css2?family=Griffy&display=swap');
 
                 body {
@@ -139,10 +165,10 @@ export class HomeState {
                     top: 10%;
                     left: 50%;
                     transform: translateX(-50%);
-                    background: #e8c4b8;
-                    padding: 30px 160px; /* Increased padding for larger buttons */
+                    background: #ffffffcc;
+                    padding: 20px 40px;
                     border-radius: 15px;
-                    border: 4px solid #b39c94;
+                    border: 4px solid #7393B3;
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                     width: 60%;
                     min-width: 600px;
@@ -156,8 +182,8 @@ export class HomeState {
                     left: 0;
                     right: 0;
                     height: 25px;
-                    background: #e8c4b8;
-                    border: 4px solid #b39c94;
+                    background: #A7C7E7;
+                    border: 4px solid #7393B3;
                     border-bottom: none;
                     border-radius: 15px 15px 0 0;
                 }
@@ -222,7 +248,7 @@ export class HomeState {
 
                 .mushroom-top {
                     display: block;
-                    background: #e8c4b8;
+                    background: #A7C7E7;
                     padding: 25px 70px; /* Increased padding for larger buttons */
                     border-radius: 60px 60px 0 0;
                     position: relative;
@@ -231,7 +257,7 @@ export class HomeState {
                 }
 
                 .mushroom-top.play {
-                    background: #ff4d4d; /* Changed to a more prominent red */
+                    background: #A7C7E7;
                 }
 
                 .mushroom-top:hover {
@@ -256,6 +282,8 @@ export class HomeState {
             document.head.appendChild(styleElement);
             document.body.appendChild(this.homeScreenElement);
 
+            this.createSnowflakes()
+
             // Add event listeners
             const mushrooms = this.homeScreenElement.querySelectorAll('.mushroom');
             mushrooms.forEach(mushroom => {
@@ -263,6 +291,21 @@ export class HomeState {
             });
         } catch (error) {
             console.error('Error creating homescreen:', error);
+        }
+    }
+
+    createSnowflakes() {
+        const snowflakes_container = this.homeScreenElement.querySelector('.snowflakes');
+        const total_snowflakes = 50;
+
+        for (let i = 0; i < total_snowflakes; i++) {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.style.left = `${Math.random() * 100}vw`;
+            snowflake.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            snowflake.style.animationDelay = `${Math.random() * 2}s`;
+            snowflake.style.width = snowflake.style.height = `${Math.random() * 15 + 10}px`;
+            snowflakes_container.appendChild(snowflake);
         }
     }
 
