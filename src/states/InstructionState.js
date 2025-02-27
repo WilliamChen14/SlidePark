@@ -8,33 +8,31 @@ export class InstructionState {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    // Tree template generation
-    getTreeTemplate(position, treeConfig) {
+    // Mountain template generation
+    getMountainTemplate(position, mountainConfig) {
         return `
-            <svg class="tree" style="left: ${position}%" viewBox="0 0 200 300">
-                <path d="M100,${treeConfig.top} L${treeConfig.width},${treeConfig.height} L${200 - treeConfig.width},${treeConfig.height} Z" fill="${treeConfig.color1}"/>
-                <path d="M100,${treeConfig.top + 50} L${treeConfig.width - 20},${treeConfig.height - 20} L${200 - treeConfig.width + 20},${treeConfig.height - 20} Z" fill="${treeConfig.color2}"/>
-                <path d="M100,${treeConfig.top + 100} L${treeConfig.width - 40},${treeConfig.height - 40} L${200 - treeConfig.width + 40},${treeConfig.height - 40} Z" fill="${treeConfig.color3}"/>
-                <path d="M100,${treeConfig.top} C${treeConfig.width - 40},${treeConfig.top + 10} ${treeConfig.width - 20},${treeConfig.top + 25} ${treeConfig.width},${treeConfig.height} C${treeConfig.width - 40},${treeConfig.height - 10} ${200 - treeConfig.width + 40},${treeConfig.height - 10} ${200 - treeConfig.width},${treeConfig.height} C${200 - treeConfig.width + 20},${treeConfig.top + 25} ${200 - treeConfig.width + 40},${treeConfig.top + 10} 100,${treeConfig.top}" fill="#b8c5b9" fill-opacity="0.3"/>
-                <rect x="90" y="${treeConfig.height - 20}" width="20" height="40" fill="#5d4037"/>
-            </svg>
-        `;
+        <svg class="mountain" style="left: ${position}%" viewBox="0 0 200 300">
+            <!-- Mountain: high peak with snow cap -->
+            <path d="M20,280 L100,0 L180,280 Z" fill="${mountainConfig.color1}"/>
+            <path d="M100,0 L70,60 L130,60 Z" fill="#ffffff" fill-opacity="0.8"/>
+        </svg>
+    `;
     }
 
-    createTreesContainer() {
-        const treeConfigs = [
-            { position: 10, top: 30, width: 140, height: 250, color1: '#849886', color2: '#7a8e7c', color3: '#6f836f' },
-            { position: 30, top: 40, width: 150, height: 240, color1: '#7a8e7c', color2: '#6f836f', color3: '#657a65' },
-            { position: 50, top: 20, width: 160, height: 260, color1: '#849886', color2: '#7a8e7c', color3: '#6f836f' },
-            { position: 70, top: 50, width: 155, height: 250, color1: '#7a8e7c', color2: '#6f836f', color3: '#657a65' },
-            { position: 90, top: 30, width: 160, height: 250, color1: '#849886', color2: '#7a8e7c', color3: '#6f836f' }
+    createMountainsContainer() {
+        const mountainConfigs = [
+            { position: 10, color1: '#8b8b8b' },
+            { position: 30, color1: '#909090' },
+            { position: 50, color1: '#787878' },
+            { position: 70, color1: '#848484' },
+            { position: 90, color1: '#8e8e8e' }
         ];
 
         return `
-            <div class="trees-container">
-                ${treeConfigs.map(config => this.getTreeTemplate(config.position, config)).join('')}
-            </div>
-        `;
+        <div class="mountains-container">
+            ${mountainConfigs.map(config => this.getMountainTemplate(config.position, config)).join('')}
+        </div>
+    `;
     }
 
     // Icon generators
@@ -208,7 +206,7 @@ export class InstructionState {
                 overflow: hidden;
             }
 
-            .trees-container {
+            .mountains-container {
                 position: absolute;
                 width: 100%;
                 height: 100%;
@@ -216,7 +214,7 @@ export class InstructionState {
                 opacity: 0.7;
             }
 
-            .tree {
+            .mountain {
                 position: absolute;
                 bottom: 0;
                 width: 120px;
@@ -462,7 +460,7 @@ export class InstructionState {
 
             this.homeScreenElement.innerHTML = `
                 <div class="snowflakes"></div>
-                ${this.createTreesContainer()}
+                ${this.createMountainsContainer()}
                 <div class="content-container">
                     <div class="title-banner">
                         <div class="chains">
