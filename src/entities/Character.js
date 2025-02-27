@@ -20,6 +20,8 @@ export class Character {
         this.velocityX = 0;
         this.velocityZ = 0;
 
+        this.isSliding = false;
+
 
 
     }
@@ -121,6 +123,12 @@ export class Character {
         if(keysPressed.p){
             this.characterMesh.rotation.y = -this.yaw;
         }
+
+        // Switch to SLiding Mode
+        if(keysPressed.j){
+            this.isSliding = !this.isSliding;
+            keysPressed.j = false;
+        }
             
 
         this.signs.forEach(obj => obj.checkSignCollision(this.characterMesh));
@@ -221,9 +229,17 @@ export class Character {
             this.velocityX = 0;
         }
 
+        // If is sliding dont take movement commands all sliding stuff should be bellow this point
+        if(this.isSliding){
+            this.moveX = 0;
+            this.moveZ = 0;
+        }
+
         if (keysPressed.w || keysPressed.a || keysPressed.s || keysPressed.d) {
-            this.model.mixer.update(deltaTime * 15);
-            this.audio.playRunSound();
+            if(!this.isSliding){
+                this.model.mixer.update(deltaTime * 15);
+                this.audio.playRunSound();
+            }
         } else {
             this.model.mixer.setTime(0);
             this.audio.stopRunSound();

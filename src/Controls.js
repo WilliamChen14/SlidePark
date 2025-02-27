@@ -74,7 +74,7 @@ export class Controls {
                 this.lastKeyPressed = "d";
                 break;
             case "j":
-                this.keysPressed.j = true;
+                this.keysPressed.j = !this.keysPressed.j;
                 break;
             case "z":
                 this.keysPressed.z = true;
