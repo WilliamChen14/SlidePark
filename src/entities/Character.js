@@ -75,7 +75,7 @@ export class Character {
         this.leftVector = new THREE.Vector3(-2, 0, 0);
         this.forwardVector = new THREE.Vector3(0, 0, -2);
         this.backwardVector = new THREE.Vector3(0, 0, 2);
-        this.collisionDistance = 0.25;
+        this.collisionDistance = 0.5;
 
         this.lastDirection = new THREE.Vector3(0, 0, -1);
 
@@ -107,8 +107,14 @@ export class Character {
         this.Exit = Exit;
         this.Tools = Tools;
 
-        const forward = new THREE.Vector3(-Math.sin(this.yaw), 0, Math.cos(this.yaw)); // Forward direction
-        const right = new THREE.Vector3(Math.cos(this.yaw), 0, Math.sin(this.yaw)); // Right direction
+        const forward = new THREE.Vector3(-Math.sin(this.yaw), 0, Math.cos(this.yaw)).normalize(); // Forward direction
+        const right = new THREE.Vector3(Math.cos(this.yaw), 0, Math.sin(this.yaw)).normalize(); // Right direction
+        const backward = forward.clone().negate();
+        const left = right.clone().negate();
+
+        const forwardDir = backward.clone();  // too lazy to figure out the movement math, so just made 2 extra vectors inverting the forward and backward for raycasting purposes only
+        const backwardDir = forward.clone();
+        
 
         this.characterMesh.rotation.y = -this.yaw + Math.PI;
 
@@ -141,7 +147,7 @@ export class Character {
         }
 
         // Collision detection in all directions
-        this.raycaster.set(this.characterMesh.position, forward);
+        this.raycaster.set(this.characterMesh.position, forwardDir);
         const intersectsForward = this.raycaster.intersectObjects(this.levelData);
         if (intersectsForward.length > 0 && intersectsForward[0].distance <= this.collisionDistance) {
             canMoveForward = false;
@@ -152,7 +158,7 @@ export class Character {
             changeLevel();
         }
 
-        this.raycaster.set(this.characterMesh.position, forward);
+        this.raycaster.set(this.characterMesh.position, backwardDir);
         const intersectsBackward = this.raycaster.intersectObjects(this.levelData);
         if (intersectsBackward.length > 0 && intersectsBackward[0].distance <= this.collisionDistance) {
             canMoveBackward = false;
@@ -163,7 +169,7 @@ export class Character {
             changeLevel();
         }
 
-        this.raycaster.set(this.characterMesh.position, right);
+        this.raycaster.set(this.characterMesh.position, left);
         const intersectsLeft = this.raycaster.intersectObjects(this.levelData);
         if (intersectsLeft.length > 0 && intersectsLeft[0].distance <= this.collisionDistance) {
             canMoveLeft = false;
