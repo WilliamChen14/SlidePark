@@ -282,7 +282,7 @@ export class HomeState {
             document.head.appendChild(styleElement);
             document.body.appendChild(this.homeScreenElement);
 
-            this.createSnowflakes()
+            this.createSnowflakes();
 
             // Add event listeners
             const mushrooms = this.homeScreenElement.querySelectorAll('.mushroom');
