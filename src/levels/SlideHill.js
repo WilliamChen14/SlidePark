@@ -6,9 +6,15 @@ export class SlideHill extends BaseLevel {
         const floorSize = 10;
         // Create a complete floor with walls
         this.addWallsAndFloorsAroundGrid(-1, 18, -1, floorSize + 1);
-        //this.addWallsAndFloorsAroundGrid(2, 5, 2, 5);
-        this.addSlickSlope(1, 1, 1);
+        this.addRocks(10, 1, 1, 0);
+        this.addHouse(10, 1, 8, 0);
+
+        this.addWallsAndFloorsAroundGrid2(-22, 40, 59 + floorSize, floorSize + 60 + floorSize, -19);
         this.addStoneFloor(5,1,2);
+        this.addStoneFloor(5,1,3);
+        this.addStoneFloor(6,1,3);
+        this.addStoneFloor(6,1,2);
+        this.addStoneFloor(6,2,2);
         this.addHillBlock(-1.5, -19.5, 11.5);
         this.addSlideBlock(5,2,5);
 
