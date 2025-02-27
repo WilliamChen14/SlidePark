@@ -211,7 +211,7 @@ export class GameState {
         this.character.yaw = this.controls.yaw;
         this.character.pitch = this.controls.pitch;
 
-        if (this.character.characterMesh.position.y < -10) {
+        if (this.character.characterMesh.position.y < -60) {
             this.levelData = [];
             this.resetLevel();
         }
