@@ -24,59 +24,34 @@ export class HomeState {
             // Set the HTML structure (excluding <html>, <head>, and <body>)
             this.homeScreenElement.innerHTML = `
                 <div class="snowflakes"></div>
-                <div class="trees-container">
-                    <!-- SVG Trees -->
-                    <svg class="tree" style="left: 5%" viewBox="0 0 200 300">
-                        <!-- Tree 1 -->
-                        <path d="M100,20 L160,280 L40,280 Z" fill="#849886"/>
-                        <path d="M100,60 L150,260 L50,260 Z" fill="#7a8e7c"/>
-                        <path d="M100,100 L140,240 L60,240 Z" fill="#6f836f"/>
-                        <!-- Snow -->
-                        <path d="M100,20 C120,30 140,45 160,280 C120,270 80,270 40,280 C60,45 80,30 100,20" fill="#b8c5b9" fill-opacity="0.3"/>
-                        <!-- Trunk -->
-                        <rect x="90" y="260" width="20" height="40" fill="#5d4037"/>
-                    </svg>
-                    <svg class="tree" style="left: 25%" viewBox="0 0 200 300">
-                        <!-- Tree 2 -->
-                        <path d="M100,30 L170,270 L30,270 Z" fill="#7a8e7c"/>
-                        <path d="M100,80 L150,250 L50,250 Z" fill="#6f836f"/>
-                        <path d="M100,130 L130,230 L70,230 Z" fill="#657a65"/>
-                        <!-- Snow -->
-                        <path d="M100,30 C120,40 150,55 170,270 C130,260 70,260 30,270 C50,55 80,40 100,30" fill="#b8c5b9" fill-opacity="0.3"/>
-                        <!-- Trunk -->
-                        <rect x="90" y="250" width="20" height="50" fill="#5d4037"/>
-                    </svg>
-                    <svg class="tree" style="left: 45%" viewBox="0 0 200 300">
-                        <!-- Tree 3 -->
-                        <path d="M100,10 L180,290 L20,290 Z" fill="#849886"/>
-                        <path d="M100,70 L160,270 L40,270 Z" fill="#7a8e7c"/>
-                        <path d="M100,130 L140,250 L60,250 Z" fill="#6f836f"/>
-                        <!-- Snow -->
-                        <path d="M100,10 C130,25 160,45 180,290 C130,280 70,280 20,290 C40,45 70,25 100,10" fill="#b8c5b9" fill-opacity="0.3"/>
-                        <!-- Trunk -->
-                        <rect x="90" y="270" width="20" height="30" fill="#5d4037"/>
-                    </svg>
-                    <svg class="tree" style="left: 65%" viewBox="0 0 200 300">
-                        <!-- Tree 4 -->
-                        <path d="M100,40 L165,280 L35,280 Z" fill="#7a8e7c"/>
-                        <path d="M100,90 L145,260 L55,260 Z" fill="#6f836f"/>
-                        <path d="M100,140 L125,240 L75,240 Z" fill="#657a65"/>
-                        <!-- Snow -->
-                        <path d="M100,40 C120,50 145,65 165,280 C125,270 75,270 35,280 C55,65 80,50 100,40" fill="#b8c5b9" fill-opacity="0.3"/>
-                        <!-- Trunk -->
-                        <rect x="90" y="260" width="20" height="40" fill="#5d4037"/>
-                    </svg>
-                    <svg class="tree" style="left: 85%" viewBox="0 0 200 300">
-                        <!-- Tree 5 -->
-                        <path d="M100,20 L170,280 L30,280 Z" fill="#849886"/>
-                        <path d="M100,80 L150,260 L50,260 Z" fill="#7a8e7c"/>
-                        <path d="M100,140 L130,240 L70,240 Z" fill="#6f836f"/>
-                        <!-- Snow -->
-                        <path d="M100,20 C120,35 150,55 170,280 C130,270 70,270 30,280 C50,55 80,35 100,20" fill="#b8c5b9" fill-opacity="0.3"/>
-                        <!-- Trunk -->
-                        <rect x="90" y="260" width="20" height="40" fill="#5d4037"/>
-                    </svg>
-                </div>
+                <div class="mountains-container">
+                <!-- SVG Mountains -->
+                <svg class="mountain" style="left: 5%" viewBox="0 0 200 300">
+                    <!-- Mountain 1 -->
+                    <path d="M20,280 L100,0 L180,280 Z" fill="#8b8b8b"/>
+                    <path d="M100,0 L70,60 L130,60 Z" fill="#ffffff" fill-opacity="0.8"/>
+                </svg>
+                <svg class="mountain" style="left: 25%" viewBox="0 0 200 300">
+                    <!-- Mountain 2 -->
+                    <path d="M30,280 L100,10 L170,280 Z" fill="#909090"/>
+                    <path d="M100,10 L80,70 L120,70 Z" fill="#ffffff" fill-opacity="0.8"/>
+                </svg>
+                <svg class="mountain" style="left: 45%" viewBox="0 0 200 300">
+                    <!-- Mountain 3 -->
+                    <path d="M20,280 L100,0 L180,280 Z" fill="#787878"/>
+                    <path d="M100,0 L75,60 L125,60 Z" fill="#ffffff" fill-opacity="0.8"/>
+                </svg>
+                <svg class="mountain" style="left: 65%" viewBox="0 0 200 300">
+                    <!-- Mountain 4 -->
+                    <path d="M20,280 L100,10 L180,280 Z" fill="#848484"/>
+                    <path d="M100,10 L80,70 L120,70 Z" fill="#ffffff" fill-opacity="0.8"/>
+                </svg>
+                <svg class="mountain" style="left: 85%" viewBox="0 0 200 300">
+                    <!-- Mountain 5 -->
+                    <path d="M20,280 L100,0 L180,280 Z" fill="#8e8e8e"/>
+                    <path d="M100,0 L75,60 L125,60 Z" fill="#ffffff" fill-opacity="0.8"/>
+                </svg>
+            </div>
 
                 <div class="title-banner">
                     <div class="chains">
@@ -146,14 +121,14 @@ export class HomeState {
                     overflow: hidden;
                 }
 
-                .trees-container {
+                .mountains-container {
                     position: absolute;
                     width: 100%;
                     height: 100%;
                     z-index: -1;
                 }
 
-                .tree {
+                .mountain {
                     position: absolute;
                     bottom: 0;
                     width: 180px;
