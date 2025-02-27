@@ -8,6 +8,7 @@ import { Hill } from '../entities/Hill.js';
 
 import { Rocks } from '../entities/Rocks.js';
 import { HillBlock } from '../entities/HillBlock.js';
+import { House } from '../entities/House.js';
 
 
 export class BaseLevel {
@@ -52,6 +53,12 @@ export class BaseLevel {
         //this.MapLayout.push(fireplace.MapLayoutMesh);
         return fireplace;
     }
+    async addHouse(x, y, z, rotation) {
+        const fireplace = new House(this.scene, x, y, z, rotation);
+        await fireplace.init();
+        //this.MapLayout.push(fireplace.MapLayoutMesh);
+        return fireplace;
+    }
 
     async addHill(x, y, z, rotation) {
         const fireplace = new Hill(this.scene, x, y, z, rotation);
@@ -73,6 +80,15 @@ export class BaseLevel {
         for (let x = startX; x <= endX; x++) {
             for (let z = startZ; z <= endZ; z++) {
                 this.addStoneFloor(x, 0, z);
+            }
+        }
+    }
+    addWallsAndFloorsAroundGrid2(startX, endX, startZ, endZ, yCord) {
+
+        // Add floor tiles within the perimeter
+        for (let x = startX; x <= endX; x++) {
+            for (let z = startZ; z <= endZ; z++) {
+                this.addStoneFloor(x, yCord, z);
             }
         }
     }

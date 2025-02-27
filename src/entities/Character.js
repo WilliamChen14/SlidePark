@@ -116,6 +116,11 @@ export class Character {
 
         const forwardDir = backward.clone();  // too lazy to figure out the movement math, so just made 2 extra vectors inverting the forward and backward for raycasting purposes only
         const backwardDir = forward.clone();
+
+        this.characterMesh.rotation.x = 0;
+        if(this.isSliding){
+            this.characterMesh.rotation.x = Math.PI/2;
+        }
         
 
         this.characterMesh.rotation.y = -this.yaw + Math.PI;
