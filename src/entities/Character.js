@@ -99,6 +99,27 @@ export class Character {
         }, 3000);
     }
 
+    getSurfaceNormal(sceneMeshes, currentCharacterPosition) {
+        // Position just below the character
+        const raycaster = new THREE.Raycaster();
+        const downVector = new THREE.Vector3(0, -1, 0);
+        const origin = currentCharacterPosition;
+        
+        raycaster.set(origin, downVector);
+        const intersections = raycaster.intersectObjects(sceneMeshes, true);
+    
+        if (intersections.length > 0) {
+            const firstHit = intersections[0]; // Closest surface
+            const normal = firstHit.face.normal.clone(); // Get face normal
+            //console.log(normal);
+            
+            // Transform normal to world space if the object is rotated
+    
+            return normal; // Normal in world space
+        }
+    
+        return null; // No surface detected
+    }
     // Method to update character position each frame
     update(keysPressed, MapLayout, Signs, Exit, Tools, moveX, moveZ, changeLevel, stateManager) {
 
@@ -262,10 +283,20 @@ export class Character {
             forward.z * direction.y + right.z * direction.x // Z movement
         );
 
+        let floorNormal = this.getSurfaceNormal(this.levelData, this.characterMesh.position.clone());
+        //console.log(this.characterMesh.position);
+
         const walkSpeed = 5;
         const friction = 10;
-        this.velocityX += (movement.x * walkSpeed - this.velocityX * friction) * deltaTime;
-        this.velocityZ += (movement.z * walkSpeed - this.velocityZ * friction) * deltaTime;
+        if(!this.isSliding){
+            this.velocityX += (movement.x * walkSpeed - this.velocityX * friction) * deltaTime;
+            this.velocityZ += (movement.z * walkSpeed - this.velocityZ * friction) * deltaTime;
+        }
+
+        if(floorNormal != null && this.isSliding){
+            this.velocityX = (this.velocityX * 57.5 + floorNormal.x * 1) * deltaTime;
+            this.velocityZ = (this.velocityZ * 57.5 + floorNormal.z * 1) * deltaTime;
+        }
 
 
         // Update character position based on movement
