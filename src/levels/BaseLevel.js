@@ -11,6 +11,7 @@ import { HillBlock } from '../entities/HillBlock.js';
 
 import { House } from '../entities/House.js';
 import { SlideBlock } from '../entities/SlideBlock.js';
+import { SplineSlide } from '../entities/SplineSlide.js';
 
 
 
@@ -52,6 +53,12 @@ export class BaseLevel {
         const slideBlock = new SlideBlock(this.scene, x, y, z);
         this.MapLayout.push(slideBlock.MapLayoutMesh);
         return slideBlock;
+    }
+
+    addSplineSlide() {
+        const splineSlide = new SplineSlide(this.scene);
+        this.MapLayout.push(splineSlide.MapLayoutMesh);
+        return splineSlide;
     }
 
 
