@@ -60,7 +60,7 @@ export class HomeState {
                         <div class="chain"></div>
                         <div class="chain"></div>
                     </div>
-                    <h1 class="title">Giant Slide Builder</h1>
+                    <h1 class="title">Slide Park</h1>
                 </div>
 
                 <div class="mushroom-container">

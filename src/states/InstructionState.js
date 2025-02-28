@@ -137,28 +137,11 @@ export class InstructionState {
                         <p>Press the <span class="key">Space bar</span> to make your character jump.</p>
                     </div>
                 </div>
-
-                <div class="instruction-section">
-                    <div class="section-icon">${this.getAttackIcon()}</div>
-                    <div class="section-content">
-                        <h3>Basic Attack</h3>
-                        <p>Press <span class="key">J</span> to attack in the last input direction.</p>
-                    </div>
-                </div>
-
                 <div class="instruction-section">
                     <div class="section-icon">${this.getDashAttackIcon()}</div>
                     <div class="section-content">
-                        <h3>Dash Attack</h3>
-                        <p>Press <span class="key">M</span> to perform a dash attack.</p>
-                    </div>
-                </div>
-
-                <div class="instruction-section">
-                    <div class="section-icon">${this.getPickupIcon()}</div>
-                    <div class="section-content">
-                        <h3>Item Interaction</h3>
-                        <p>Press <span class="key">K</span> to pick up or drop items.</p>
+                        <h3>Slide Toggle</h3>
+                        <p>Press <span class="key">J</span> to go into Sliding mode.</p>
                     </div>
                 </div>
 
@@ -175,15 +158,6 @@ export class InstructionState {
                     <div class="section-content">
                         <h3>Pause Game</h3>
                         <p>Press <span class="key">Escape</span> to pause the game.</p>
-                    </div>
-                </div>
-
-                <!-- New Instruction Section for Jump + Attack -->
-                <div class="instruction-section">
-                    <div class="section-icon">${this.getJumpAttackIcon()}</div>
-                    <div class="section-content">
-                        <h3>Jump + Attack</h3>
-                        <p>Press <span class="key">Z</span> to perform a combined jump and attack action.</p>
                     </div>
                 </div>
             </div>
