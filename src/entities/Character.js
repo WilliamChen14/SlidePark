@@ -5,8 +5,6 @@ import { AudioPlayer } from '/src/Audio.js';
 
 import CHARACTER from '/assets/models/character.glb';
 import PENGUIN from '../../assets/models/basicPenguinText.glb';
-import EXCITED_PENGUIN from '../../assets/models/excitedPenguin.glb';
-
 
 const clock = new THREE.Clock();
 
@@ -91,31 +89,6 @@ export class Character {
         this.lastPickupTime = 0;
     }
 
-    async changeFacial(penguinModel) {
-        if (this.model.sceneObject) {
-            this.characterMesh.remove(this.model.sceneObject);
-        }
-
-        await this.model.loadModel(penguinModel, {
-            transformOffset: {
-                x: 0.0,
-                y: 0.1,
-                z: 0.0,
-            },
-            rotationOffset: {
-                x: 0,
-                y: Math.PI / 2,
-                z: 0,
-            },
-            scaleOffset: {
-                x: 0.5,
-                y: 0.5,
-                z: 0.5,
-            }
-        });
-        this.characterMesh.add(this.model.sceneObject);
-    }
-
     // Show the message container when collision with sign occurs
     showMessage(message) {
         const messageContainer = document.getElementById("message-container");
@@ -180,11 +153,6 @@ export class Character {
         // Switch to SLiding Mode
         if(keysPressed.j){
             this.isSliding = !this.isSliding;
-            if (this.isSliding) {
-                this.changeFacial(EXCITED_PENGUIN);
-            } else {
-                this.changeFacial(PENGUIN);
-            }
             keysPressed.j = false;
         }
 
