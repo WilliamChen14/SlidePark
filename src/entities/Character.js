@@ -131,7 +131,6 @@ export class Character {
         const raycaster = new THREE.Raycaster();
         const downVector = new THREE.Vector3(0, -1, 0);
         const origin = currentCharacterPosition;
-
         raycaster.set(origin, downVector);
         const intersections = raycaster.intersectObjects(sceneMeshes, true);
 
