@@ -5,6 +5,8 @@ import { AudioPlayer } from '/src/Audio.js';
 
 import CHARACTER from '/assets/models/character.glb';
 import PENGUIN from '../../assets/models/basicPenguinText.glb';
+import EXCITED_PENGUIN from '../../assets/models/excitedPenguin.glb';
+
 
 const clock = new THREE.Clock();
 
@@ -89,6 +91,31 @@ export class Character {
         this.lastPickupTime = 0;
     }
 
+    async changeFacial(penguinModel) {
+        if (this.model.sceneObject) {
+            this.characterMesh.remove(this.model.sceneObject);
+        }
+
+        await this.model.loadModel(penguinModel, {
+            transformOffset: {
+                x: 0.0,
+                y: 0.1,
+                z: 0.0,
+            },
+            rotationOffset: {
+                x: 0,
+                y: Math.PI / 2,
+                z: 0,
+            },
+            scaleOffset: {
+                x: 0.5,
+                y: 0.5,
+                z: 0.5,
+            }
+        });
+        this.characterMesh.add(this.model.sceneObject);
+    }
+
     // Show the message container when collision with sign occurs
     showMessage(message) {
         const messageContainer = document.getElementById("message-container");
@@ -104,20 +131,20 @@ export class Character {
         const raycaster = new THREE.Raycaster();
         const downVector = new THREE.Vector3(0, -1, 0);
         const origin = currentCharacterPosition;
-        
+
         raycaster.set(origin, downVector);
         const intersections = raycaster.intersectObjects(sceneMeshes, true);
-    
+
         if (intersections.length > 0) {
             const firstHit = intersections[0]; // Closest surface
             const normal = firstHit.face.normal.clone(); // Get face normal
             //console.log(normal);
-            
+
             // Transform normal to world space if the object is rotated
-    
+
             return normal; // Normal in world space
         }
-    
+
         return null; // No surface detected
     }
     // Method to update character position each frame
@@ -142,7 +169,7 @@ export class Character {
         if(this.isSliding){
             this.characterMesh.rotation.x = Math.PI/2;
         }
-        
+
 
         this.characterMesh.rotation.y = -this.yaw + Math.PI;
 
@@ -153,15 +180,20 @@ export class Character {
         // Switch to SLiding Mode
         if(keysPressed.j){
             this.isSliding = !this.isSliding;
+            if (this.isSliding) {
+                this.changeFacial(EXCITED_PENGUIN);
+            } else {
+                this.changeFacial(PENGUIN);
+            }
             keysPressed.j = false;
         }
-            
+
 
         this.signs.forEach(obj => obj.checkSignCollision(this.characterMesh));
 
-        
 
-        
+
+
 
         // Initialize movement allowed flags
         let canMoveForward = true;
@@ -330,7 +362,7 @@ export class Character {
             this.moveY = 0;               // Reset vertical velocity
             this.isOnGround = true;           // Allow jumping again
         }
-        else { 
+        else {
             this.isOnGround = false;
         }
     }
