@@ -24,6 +24,8 @@ export class Character {
 
         this.isSliding = false;
 
+        this.currentFacial = "normal";
+
 
 
     }
@@ -177,11 +179,6 @@ export class Character {
         // Switch to SLiding Mode
         if(keysPressed.j){
             this.isSliding = !this.isSliding;
-            if (this.isSliding) {
-                this.changeFacial(EXCITED_PENGUIN);
-            } else {
-                this.changeFacial(PENGUIN);
-            }
             keysPressed.j = false;
         }
 
@@ -334,6 +331,19 @@ export class Character {
         if(floorNormal != null && this.isSliding){
             this.velocityX = (this.velocityX * 57.5 + floorNormal.x * 1) * deltaTime;
             this.velocityZ = (this.velocityZ * 57.5 + floorNormal.z * 1) * deltaTime;
+
+            
+            if (floorNormal.y != 1) {
+                if(this.currentFacial != "excited"){
+                    this.changeFacial(EXCITED_PENGUIN);
+                    this.currentFacial = "excited";
+                }
+            }
+            else{
+                if(this.currentFacial != "normal")
+                    this.changeFacial(PENGUIN);
+                    this.currentFacial = "normal";
+            }
         }
 
 

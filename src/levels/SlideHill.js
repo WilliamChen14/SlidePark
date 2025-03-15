@@ -9,18 +9,108 @@ export class SlideHill extends BaseLevel {
         this.addRocks(10, 1, 1, 0);
         this.addHouse(10, 1, 8, 0);
 
-        this.addMountain(27.6, 1, 7.8, 0);
-        this.addMountain(-10.6, 1, 7.8, 0);
+        this.addCloud(-3, 1, -2, Math.PI * 0.7);
+        this.addCloud(-3, 1, 1, Math.PI * 0.5);
+        this.addCloud(-3, 1, 4, Math.PI * 0.3);
+        this.addCloud(-3, 1, 7, Math.PI * 0.9);
+        this.addCloud(-3, 1, 10, Math.PI * 0.1);
+        this.addCloud(-2, 1, -2, Math.PI * 0.5);
+        this.addCloud(1, 1, -2, Math.PI * -0.8);
+        this.addCloud(4, 1, -2, Math.PI * 1.3);
+        this.addCloud(7, 1, -2, Math.PI * -1.2);
+        this.addCloud(10, 1, -2, Math.PI * 0.2);
+        this.addCloud(13, 1, -2, Math.PI * -0.5);
+        this.addCloud(16, 1, -2, Math.PI * 0.7);
+        this.addCloud(19, 1, -2, Math.PI * -1.0);
+        this.addCloud(22, 1, -2, Math.PI * 1.1);
+        this.addCloud(20, 1, -2, Math.PI * 0.5);
+        this.addCloud(20, 1, 1, Math.PI * 0.2);
+        this.addCloud(20, 1, 4, Math.PI * 0.8);
+        this.addCloud(20, 1, 7, Math.PI * 0.3);
+        this.addCloud(20, 1, 10, Math.PI * 0.1);
+
+        this.addMountain(50.6, -30, 7.8, 0);
+        this.addMountain(-30.6, -30, 7.8, Math.PI/4);
+        this.addMountain(10, -30, -20, 0);
+        this.addMountain(60, -25, -25, Math.PI/3);
+        this.addMountain(-40, -20, -35, Math.PI/5);
+        this.addMountain(60.6, -30, 40, Math.PI/2);
+        this.addMountain(-45.6, -30, 45, Math.PI/3);
+        this.addMountain(70, -40, 70, Math.PI);
+        this.addMountain(-50, -40, 65, Math.PI);
+        this.addMountain(80, -45, 80, Math.PI/6);
+        this.addMountain(-60, -45, 80, Math.PI/2);
+        this.addMountain(65, -45, 100, Math.PI/3);
+        this.addMountain(-45, -45, 100, Math.PI/7);
+        this.addMountain(-15, -45, 100, Math.PI/11);
+        this.addMountain(15, -50, 100, Math.PI);
+        this.addMountain(33, -40, 100, Math.PI);
 
         this.addWallsAndFloorsAroundGrid2(-22, 40, 59 + floorSize, floorSize + 60 + floorSize, -19);
+        // Clouds along the x = -22 boundary
+        this.addCloud(-22, -18, 59 + floorSize, Math.PI * 0.6);
+        this.addCloud(-22, -18, 62 + floorSize, Math.PI * 0.4);
+        this.addCloud(-22, -18, 65 + floorSize, Math.PI * 0.7);
+        this.addCloud(-22, -18, 68 + floorSize, Math.PI * 0.3);
+        this.addCloud(-22, -18, 71 + floorSize, Math.PI * 1.0);
+        this.addCloud(-21, -18, 71 + floorSize, Math.PI * 0.5);
+        this.addCloud(-18, -18, 71 + floorSize, Math.PI * -0.6);
+        this.addCloud(-15, -18, 71 + floorSize, Math.PI * 1.1);
+        this.addCloud(-12, -18, 71 + floorSize, Math.PI * 0.2);
+        this.addCloud(-9, -18, 71 + floorSize, Math.PI * -0.3);
+        this.addCloud(-6, -18, 71 + floorSize, Math.PI * 0.8);
+        this.addCloud(-3, -18, 71 + floorSize, Math.PI * -0.9);
+
+        // Clouds along the x = 40 boundary
+        this.addCloud(40, -18, 59 + floorSize, Math.PI * -0.2);
+        this.addCloud(40, -18, 62 + floorSize, Math.PI * 0.3);
+        this.addCloud(40, -18, 65 + floorSize, Math.PI * -0.7);
+        this.addCloud(40, -18, 68 + floorSize, Math.PI * 0.5);
+        this.addCloud(40, -18, 71 + floorSize, Math.PI * 1.3);
+        this.addCloud(39, -18, 71 + floorSize, Math.PI * 0.1);
+        this.addCloud(36, -18, 71 + floorSize, Math.PI * 0.8);
+        this.addCloud(33, -18, 71 + floorSize, Math.PI * -0.6);
+        this.addCloud(30, -18, 71 + floorSize, Math.PI * 1.0);
+        this.addCloud(27, -18, 71 + floorSize, Math.PI * -0.5);
+        this.addCloud(24, -18, 71 + floorSize, Math.PI * 0.2);
+        this.addCloud(21, -18, 71 + floorSize, Math.PI * 0.9);
+        this.addCloud(18, -18, 71 + floorSize, Math.PI * 0.3);
+        this.addCloud(15, -18, 71 + floorSize, Math.PI * 0.5);
+        this.addCloud(12, -18, 71 + floorSize, Math.PI * -0.9);
+        this.addCloud(9, -18, 71 + floorSize, Math.PI * -0.2);
+        this.addCloud(6, -18, 71 + floorSize, Math.PI * 0.2);
+        this.addCloud(3, -18, 71 + floorSize, Math.PI * 0.6);
+        this.addCloud(0, -18, 71 + floorSize, Math.PI * 1.7);
+
+
+
+
         this.addStoneFloor(5,1,2);
         this.addStoneFloor(5,1,3);
         this.addStoneFloor(6,1,3);
         this.addStoneFloor(6,1,2);
         this.addStoneFloor(6,2,2);
-        this.addHillBlock(-1.5, -19.5, 11.5);
-        this.addSlideBlock(5,2,5);
-        this.addSplineSlide();
+      
+        this.addHillBlock(-1.5, -19.6, 11.5);
+        this.addSlideBlock(1, -0.2, 13.35);
+        this.addSlideBlock(1, -1.46, 17.14);
+        this.addSlideBlock(1, -2.72, 20.93);
+        this.addSlideBlock(1, -3.98, 24.72);
+        this.addSlideBlock(1, -5.24, 28.51);
+        this.addSlideBlock(1, -6.50, 32.30);
+        this.addSlideBlock(1, -7.76, 36.09);
+        this.addSlideBlock(1, -9.02, 39.88);
+        this.addSlideBlock(1, -10.28, 43.67);
+        this.addSlideBlock(1, -11.54, 47.46);
+        this.addSlideBlock(1, -12.80, 51.25);
+        this.addSlideBlock(1, -14.06, 55.04);
+        this.addSlideBlock(1, -15.32, 58.83);
+        this.addSlideBlock(1, -16.58, 62.62);
+        this.addSlideBlock(1, -17.84, 66.41);
+        this.addSlideBlock(1, -19.10, 70.20);
+
+        this.addSplineSlide(10, -6, 30, Math.PI/11);
+
 
         this.addTree(-1, 0.5, 11.5);
         this.addTree(-2, -0.5, 14.5);

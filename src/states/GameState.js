@@ -225,7 +225,10 @@ export class GameState {
         let cameraOffset = new THREE.Vector3(0, 1, 5);
 
         if(this.controls.keysPressed.f){
-            cameraOffset = new THREE.Vector3(0, 2, 0);
+            cameraOffset = new THREE.Vector3(0, 1, 1);
+            if(this.character.isSliding){
+                cameraOffset = new THREE.Vector3(0, 0.25, -1);
+            }
         }
 
         if(this.controls.keysPressed.p){
@@ -249,6 +252,7 @@ export class GameState {
                 this.character.characterMesh.position.z + offsetZ
             );
             //console.log(targetCameraPosition);
+            /*
             const deltaCameraPosition = this.character.characterMesh.position.clone().sub(targetCameraPosition);
             const angleCamera = this.character.angle;
 
@@ -257,7 +261,16 @@ export class GameState {
             deltaCameraPosition.multiplyScalar(cameraSpeed * deltaTime);
             this.stateManager.camera.position.x = targetCameraPosition.x;
             this.stateManager.camera.position.y = targetCameraPosition.y;
+            this.stateManager.camera.position.z = targetCameraPosition.z;*/
+
+            // Lerp factor to control smoothness (0 = no movement, 1 = instant movement)
+            const lerpFactor = 1 - Math.exp(-5 * deltaTime); // Exponential decay for smooth motion
+
+            // Smoothly interpolate the camera position
+            this.stateManager.camera.position.x = targetCameraPosition.x;
+            this.stateManager.camera.position.y = THREE.MathUtils.lerp(this.stateManager.camera.position.y, targetCameraPosition.y, lerpFactor);
             this.stateManager.camera.position.z = targetCameraPosition.z;
+
             
             // Clamp pitch to prevent flipping (e.g., -80° to 80°)
             this.stateManager.camera.rotation.set(-this.character.pitch, -this.character.yaw, 0, 'YXZ');

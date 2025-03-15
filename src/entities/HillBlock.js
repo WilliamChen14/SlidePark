@@ -5,7 +5,7 @@ const dirtTexture = textureLoader.load('../../assets/dirt.png');
 
 // Create material
 const StoneFloorMaterial = new THREE.MeshPhysicalMaterial({
-    color: 0x4a3525,
+    color: 0x959c9c,
     roughness: 0.9,
     metalness: 0
 });
