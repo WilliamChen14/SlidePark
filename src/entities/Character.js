@@ -176,10 +176,6 @@ export class Character {
 
         this.characterMesh.rotation.y = -this.yaw + Math.PI;
 
-        if(keysPressed.p){
-            this.characterMesh.rotation.y = -this.yaw;
-        }
-
         // Switch to SLiding Mode
         if(keysPressed.j){
             this.isSliding = !this.isSliding;
@@ -188,9 +184,6 @@ export class Character {
 
 
         this.signs.forEach(obj => obj.checkSignCollision(this.characterMesh));
-
-
-
 
 
         // Initialize movement allowed flags
@@ -292,10 +285,22 @@ export class Character {
         }
 
         if (keysPressed.w || keysPressed.a || keysPressed.s || keysPressed.d) {
+            // let baseRotationY = -this.yaw + Math.PI;
+            let baseRotationY = keysPressed.p ? -this.yaw : (-this.yaw + Math.PI);
+
+            const maxWaddleAngle = 30 * Math.PI / 180;
+            const waddleSpeed = 2;
+            const waddleOffset = Math.sin(clock.getElapsedTime() * waddleSpeed) * maxWaddleAngle;
+            this.characterMesh.rotation.y = baseRotationY + waddleOffset;
+
             if(!this.isSliding){
                 this.model.mixer.update(deltaTime * 15);
                 this.audio.playRunSound();
             }
+        } else if (keysPressed.p) {
+            this.characterMesh.rotation.y = -this.yaw;
+            this.model.mixer.setTime(0);
+            this.audio.stopRunSound();
         } else {
             this.model.mixer.setTime(0);
             this.audio.stopRunSound();
