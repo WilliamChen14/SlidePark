@@ -2,12 +2,18 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 const textureLoader = new THREE.TextureLoader();
-const stoneTexture = textureLoader.load('../../assets/stone.png');
+const iceTexture = textureLoader.load('../../assets/ice-field-bl/ice_field_albedo.png');
+iceTexture.wrapS = iceTexture.wrapT = THREE.RepeatWrapping;
+iceTexture.repeat.set( 2 , 2 );
+const iceRoughness = textureLoader.load('../../assets/ice-field-bl/ice_field_roughness.png');
+const iceNormal = textureLoader.load('../../assets/ice-field-bl/ice_field_normal-ogl.png');
 // Create sign mesh and set its properties
-const StoneFloorMaterial = new THREE.MeshPhysicalMaterial({
-    map: stoneTexture,
-    color: 0x4a403f,
-    roughness: 0.5,
+const IceFloorMaterial = new THREE.MeshPhysicalMaterial({
+    map: iceTexture,
+    roughnessMap: iceRoughness,
+    normalMap: iceNormal,
+    color: 0xc0f0eb,
+    roughness: 1,
     metalness: 0,
 });
 
@@ -40,7 +46,7 @@ export class SlideBlock {
         const mergedGeometry = mergeGeometries([bottomGeom, sideLeftGeom, sideRightGeom]);
 
         // Add everything to the group
-        const mergedMesh = new THREE.Mesh(mergedGeometry, StoneFloorMaterial);
+        const mergedMesh = new THREE.Mesh(mergedGeometry, IceFloorMaterial);
         mergedMesh.castShadow = true;
         mergedMesh.receiveShadow = true;
         mergedMesh.position.set(x, y, z); // Move the entire slide to its final position

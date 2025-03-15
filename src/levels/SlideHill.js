@@ -90,6 +90,7 @@ export class SlideHill extends BaseLevel {
         this.addStoneFloor(6,1,3);
         this.addStoneFloor(6,1,2);
         this.addStoneFloor(6,2,2);
+      
         this.addHillBlock(-1.5, -19.6, 11.5);
         this.addSlideBlock(1, -0.2, 13.35);
         this.addSlideBlock(1, -1.46, 17.14);
@@ -107,7 +108,9 @@ export class SlideHill extends BaseLevel {
         this.addSlideBlock(1, -16.58, 62.62);
         this.addSlideBlock(1, -17.84, 66.41);
         this.addSlideBlock(1, -19.10, 70.20);
-        this.addSplineSlide();
+
+        this.addSplineSlide(10, -6, 30, Math.PI/11);
+
 
         this.addTree(-1, 0.5, 11.5);
         this.addTree(-2, -0.5, 14.5);

@@ -64,8 +64,8 @@ export class BaseLevel {
         return cloud;
     }
 
-    addSplineSlide() {
-        const splineSlide = new SplineSlide(this.scene);
+    addSplineSlide(x, y, z, theta) {
+        const splineSlide = new SplineSlide(this.scene, x, y, z, theta);
         this.MapLayout.push(splineSlide.MapLayoutMesh);
         return splineSlide;
     }
