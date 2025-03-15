@@ -13,6 +13,7 @@ import { House } from '../entities/House.js';
 import { SlideBlock } from '../entities/SlideBlock.js';
 import { SplineSlide } from '../entities/SplineSlide.js';
 import { Mountain } from '../entities/Mountain.js';
+import { Cloud } from '../entities/Cloud.js';
 
 
 
@@ -55,6 +56,12 @@ export class BaseLevel {
         const slideBlock = new SlideBlock(this.scene, x, y, z);
         this.MapLayout.push(slideBlock.MapLayoutMesh);
         return slideBlock;
+    }
+
+    addCloud(x, y, z, rotation) {
+        const cloud = new Cloud(this.scene, x, y, z, rotation);
+        this.MapLayout.push(cloud.MapLayoutMesh);
+        return cloud;
     }
 
     addSplineSlide(x, y, z, theta) {

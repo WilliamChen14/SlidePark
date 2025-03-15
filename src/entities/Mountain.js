@@ -20,9 +20,9 @@ export class Mountain {
                 z: 0,
             },
             scaleOffset: {
-                x: 10,
-                y: 10,
-                z: 10,
+                x: 50,
+                y: 50,
+                z: 50,
             }
         });
         this.mountain = this.model.sceneObject;

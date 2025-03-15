@@ -19,7 +19,7 @@ const IceFloorMaterial = new THREE.MeshPhysicalMaterial({
 
 
 export class SlideBlock {
-    constructor(scene, x, y, z, width = 4, length = 4, height = 0.2, angle = Math.PI / 6) {
+    constructor(scene, x, y, z, width = 3.0, length = 4, height = 0.2, angle = Math.atan(1/3)) {
         this.scene = scene;
         this.MapLayoutMesh = null;
 
