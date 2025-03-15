@@ -14,6 +14,7 @@ import { SlideBlock } from '../entities/SlideBlock.js';
 import { SplineSlide } from '../entities/SplineSlide.js';
 import { Mountain } from '../entities/Mountain.js';
 import { Cloud } from '../entities/Cloud.js';
+import { Snow } from '../entities/Snow.js';
 
 
 
@@ -26,6 +27,15 @@ export class BaseLevel {
         this.Signs = [];
         this.Tools = [];
         this.Updatables = [];
+
+        this.snow = new Snow(this.scene, {
+            count: 3000,
+            totalArea: 200,
+            height: 50,
+            snowfallSpeed: 0.2,
+            size: 0.5,
+        });
+        this.Updatables.push(this.snow);
     }
 
     addStoneFloor(x, y, z) {
