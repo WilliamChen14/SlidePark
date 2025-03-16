@@ -28,7 +28,8 @@ export class SplineSlide {
         const curve = new THREE.CatmullRomCurve3( [
             new THREE.Vector3( 0, 0, 0 ),
             new THREE.Vector3( 0, 0, 20 ),
-            new THREE.Vector3( 20, 0, 40 )
+            new THREE.Vector3( 17, 0, 40 ),
+            new THREE.Vector3( 11, 0, 60 )
         ] );
 
         curve.computeFrenetFrames = function (segments, closed = false) {
