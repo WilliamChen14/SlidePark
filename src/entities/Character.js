@@ -323,7 +323,7 @@ export class Character {
         this.moveZ = tempZ;
         this.moveX = tempX;
 
-        if (this.moveX == 0 && this.moveZ == 0) {
+        if (this.moveX == 0 && this.moveZ == 0 && !this.isSliding) {
             this.characterMesh.rotation.z = 0;
         }
 
