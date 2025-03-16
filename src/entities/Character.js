@@ -179,11 +179,13 @@ export class Character {
         if (!this.isSliding && keysPressed.w || keysPressed.a || keysPressed.s || keysPressed.d) {
             // let baseRotationY = -this.yaw + Math.PI;
             let baseRotationY = keysPressed.p ? -this.yaw : (-this.yaw + Math.PI);
+            
 
             const maxWaddleAngle = 30 * Math.PI / 180;
             const waddleSpeed = 20;
             const waddleOffset = Math.sin(clock.getElapsedTime() * waddleSpeed) * maxWaddleAngle;
             this.characterMesh.rotation.y = baseRotationY + waddleOffset;
+            this.characterMesh.rotation.z = waddleOffset * 0.6;
 
             if(!this.isSliding){
                 this.model.mixer.update(deltaTime * 15);
@@ -311,6 +313,10 @@ export class Character {
         direction.normalize().multiplyScalar(this.moveSpeed);
         this.moveZ = tempZ;
         this.moveX = tempX;
+
+        if (this.moveX == 0 && this.moveZ == 0) {
+            this.characterMesh.rotation.z = 0;
+        }
 
         // Combine forward and right movements based on input direction
         const movement = new THREE.Vector3(
