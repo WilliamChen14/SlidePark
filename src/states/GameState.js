@@ -1,8 +1,6 @@
 import { Controls } from '../Controls.js';
 import { Character } from '../entities/Character.js';
-import { GameOverState } from './GameOverState.js';
 import * as THREE from 'three';
-import { EndState } from './EndState.js';
 import { AudioPlayer } from '/src/Audio.js';
 import { SlideHill } from '../levels/SlideHill.js';
 
