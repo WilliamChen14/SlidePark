@@ -168,13 +168,20 @@ export class Character {
         const forwardDir = backward.clone();  // too lazy to figure out the movement math, so just made 2 extra vectors inverting the forward and backward for raycasting purposes only
         const backwardDir = forward.clone();
 
-        this.characterMesh.rotation.x = 0;
+
         if(this.isSliding){
+            this.characterMesh.rotation.y = 0;
             this.characterMesh.rotation.x = Math.PI/2;
+            console.log(this.yaw);
+            this.characterMesh.rotation.z = this.yaw + Math.PI;
+        }
+        else{
+            this.characterMesh.rotation.z = 0;
+            this.characterMesh.rotation.x = 0;
+            this.characterMesh.rotation.y = -this.yaw + Math.PI;
         }
 
 
-        this.characterMesh.rotation.y = -this.yaw + Math.PI;
 
         if (!this.isSliding && keysPressed.w || !this.isSliding && keysPressed.a || !this.isSliding && keysPressed.s || !this.isSliding && keysPressed.d) {
             // let baseRotationY = -this.yaw + Math.PI;
@@ -203,6 +210,7 @@ export class Character {
             this.isSliding = !this.isSliding;
             keysPressed.j = false;
         }
+
 
 
         this.signs.forEach(obj => 
