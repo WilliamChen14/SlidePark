@@ -184,8 +184,8 @@ export class Character {
             const maxWaddleAngle = 30 * Math.PI / 180;
             const waddleSpeed = 20;
             const waddleOffset = Math.sin(clock.getElapsedTime() * waddleSpeed) * maxWaddleAngle;
-            this.characterMesh.rotation.y = baseRotationY + waddleOffset;
-            this.characterMesh.rotation.z = waddleOffset * 0.6;
+            this.characterMesh.rotation.y = baseRotationY + waddleOffset * 0.8;
+            this.characterMesh.rotation.z = waddleOffset * 0.4;
 
             if(!this.isSliding){
                 this.model.mixer.update(deltaTime * 15);
