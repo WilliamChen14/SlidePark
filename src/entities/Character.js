@@ -10,6 +10,11 @@ import EXCITED_PENGUIN from '../../assets/models/excitedPenguin.glb';
 
 const clock = new THREE.Clock();
 
+const CapsuleMaterial = new THREE.MeshBasicMaterial({
+    transparent: true,
+    opacity: 0.3
+});
+
 export class Character {
     constructor(scene) {
         this.scene = scene;
@@ -21,6 +26,10 @@ export class Character {
         this.spinSpeed = 7;
         this.velocityX = 0;
         this.velocityZ = 0;
+
+        this.capsule = new THREE.CapsuleGeometry(0.6, 0.25, 1, 12);
+        this.capsuleMesh = new THREE.Mesh(this.capsule, CapsuleMaterial);
+        this.finalMovementVector = new THREE.Vector3(0, 0, 0);
 
         this.isSliding = false;
 
@@ -54,6 +63,7 @@ export class Character {
 
         // Set initial position
         this.characterMesh.position.set(0, 1, 0); // Initial position
+        this.capsuleMesh.position.set(0, 1, 0);
 
         // Enable shadow casting and receiving
         this.characterMesh.traverse((child) => {
@@ -87,6 +97,7 @@ export class Character {
 
         // Add the character to the scene
         this.scene.add(this.characterMesh);
+        this.scene.add(this.capsuleMesh);
 
         this.heldItem = null;
         this.pickupCooldown = 500;
@@ -150,6 +161,28 @@ export class Character {
 
         return null; // No surface detected
     }
+
+    checkCollisions() {
+        const playerGeometry = this.capsuleMesh.geometry;
+        const playerMatrix = this.capsuleMesh.matrixWorld;
+        let collisionResponse = new THREE.Vector3(0, 0, 0);
+    
+        for (let vertexIndex = 0; vertexIndex < playerGeometry.attributes.position.count; vertexIndex++) {
+          
+            let localVertex = new THREE.Vector3().fromBufferAttribute(playerGeometry.attributes.position, vertexIndex).clone();
+            let globalVertex = localVertex.applyMatrix4(playerMatrix);
+            let directionVector = globalVertex.sub(this.capsuleMesh.position);
+    
+            this.raycaster.set(this.capsuleMesh.position, directionVector.clone().normalize());
+            let collisionResults = this.raycaster.intersectObjects(this.levelData);  // Check against level meshes
+    
+            if (collisionResults.length > 0 && collisionResults[0].distance <= directionVector.length()) {
+                collisionResponse.add(directionVector.normalize());
+            }
+        }
+        return collisionResponse.normalize();
+    }
+    
     // Method to update character position each frame
     update(keysPressed, MapLayout, Signs, Exit, Tools, moveX, moveZ, changeLevel, stateManager) {
 
@@ -169,15 +202,19 @@ export class Character {
         const backwardDir = forward.clone();
 
         this.characterMesh.rotation.x = 0;
+        this.capsuleMesh.rotation.x = 0;
         if(this.isSliding){
             this.characterMesh.rotation.x = Math.PI/2;
+            this.capsuleMesh.rotation.x = Math.PI/2;
         }
 
 
         this.characterMesh.rotation.y = -this.yaw + Math.PI;
+        this.capsuleMesh.rotation.y = -this.yaw + Math.PI;
 
         if(keysPressed.p){
             this.characterMesh.rotation.y = -this.yaw;
+            this.capsuleMesh.rotation.y = -this.yaw;
         }
 
         // Switch to SLiding Mode
@@ -209,51 +246,7 @@ export class Character {
         if (!this.isOnGround) {
             this.moveY += this.gravity * deltaTime;
         }
-
-        // Collision detection in all directions
-        this.raycaster.set(this.characterMesh.position, forwardDir);
-        const intersectsForward = this.raycaster.intersectObjects(this.levelData);
-        if (intersectsForward.length > 0 && intersectsForward[0].distance <= this.collisionDistance) {
-            canMoveForward = false;
-        }
-        const intersectsExitForward = this.raycaster.intersectObjects(this.Exit);
-        if (intersectsExitForward.length > 0 && intersectsExitForward[0].distance <= this.collisionDistance) {
-            console.log("exit hit");
-            changeLevel();
-        }
-
-        this.raycaster.set(this.characterMesh.position, backwardDir);
-        const intersectsBackward = this.raycaster.intersectObjects(this.levelData);
-        if (intersectsBackward.length > 0 && intersectsBackward[0].distance <= this.collisionDistance) {
-            canMoveBackward = false;
-        }
-        const intersectsExitBack = this.raycaster.intersectObjects(this.Exit);
-        if (intersectsExitBack.length > 0 && intersectsExitBack[0].distance <= this.collisionDistance) {
-            console.log("exit hit");
-            changeLevel();
-        }
-
-        this.raycaster.set(this.characterMesh.position, left);
-        const intersectsLeft = this.raycaster.intersectObjects(this.levelData);
-        if (intersectsLeft.length > 0 && intersectsLeft[0].distance <= this.collisionDistance) {
-            canMoveLeft = false;
-        }
-        const intersectsExitLeft = this.raycaster.intersectObjects(this.Exit);
-        if (intersectsExitLeft.length > 0 && intersectsExitLeft[0].distance <= this.collisionDistance) {
-            console.log("exit hit");
-            changeLevel();
-        }
-
-        this.raycaster.set(this.characterMesh.position, right);
-        const intersectsRight = this.raycaster.intersectObjects(this.levelData);
-        if (intersectsRight.length > 0 && intersectsRight[0].distance <= this.collisionDistance) {
-            canMoveRight = false;
-        }
-        const intersectsExitRight = this.raycaster.intersectObjects(this.Exit);
-        if (intersectsExitRight.length > 0 && intersectsExitRight[0].distance <= this.collisionDistance) {
-            console.log("exit hit");
-            changeLevel();
-        }
+     
 
         // Set movement based on key presses
         this.moveX = moveX;
@@ -266,24 +259,6 @@ export class Character {
         this.moveX = keysPressed.a ? -this.moveSpeed : keysPressed.d ? this.moveSpeed : 0;
         */
 
-        const tempZ = this.moveZ;
-        const tempX = this.moveX;
-        if (this.moveZ < 0 && !canMoveForward) {
-            this.moveZ = 0; // Forward
-            this.velocityZ = 0;
-        }
-        if (this.moveZ > 0 && !canMoveBackward) {
-            this.moveZ = 0; // Backward
-            this.velocityZ = 0;
-        }
-        if (this.moveX < 0 && !canMoveLeft) {
-            this.moveX = 0;     // Left
-            this.velocityX = 0;
-        }
-        if (this.moveX > 0 && !canMoveRight) {
-            this.moveX = 0;    // Right
-            this.velocityX = 0;
-        }
 
         // If is sliding dont take movement commands all sliding stuff should be bellow this point
         if(this.isSliding){
@@ -303,8 +278,8 @@ export class Character {
 
         const direction = new THREE.Vector2(this.moveX, this.moveZ);
         direction.normalize().multiplyScalar(this.moveSpeed);
-        this.moveZ = tempZ;
-        this.moveX = tempX;
+        // this.moveZ = tempZ;
+        // this.moveX = tempX;
 
         // Combine forward and right movements based on input direction
         const movement = new THREE.Vector3(
@@ -340,13 +315,41 @@ export class Character {
                     this.currentFacial = "normal";
             }
         }
+        let collisionResponse = this.checkCollisions();
+        if (!this.collisionArrow) {
+            this.collisionArrow = new THREE.ArrowHelper(
+                collisionResponse, // Direction
+                this.characterMesh.position, // Origin
+                1, // Length of the arrow
+                0xff0000 // Red color for visibility
+            );
+            this.scene.add(this.collisionArrow);
+        } else {
+            // Update arrow direction and position
+            this.collisionArrow.setDirection(collisionResponse);
+            this.collisionArrow.position.copy(this.characterMesh.position);
+        }
+
+       
 
 
         // Update character position based on movement
         if (deltaTime < .1) {
-            this.characterMesh.position.x += this.velocityX * deltaTime * 50;
-            this.characterMesh.position.y += this.moveY * deltaTime * 50;
-            this.characterMesh.position.z += this.velocityZ * deltaTime * 50;
+            this.finalMovementVector.set(this.velocityX * deltaTime * 50, this.moveY * deltaTime * 50, this.velocityZ * deltaTime * 50);
+            // Adjust movement based on collision
+            if (collisionResponse.length() > 0) {
+                let dotProduct = this.finalMovementVector.dot(collisionResponse);
+                if (dotProduct >= 0) {
+                    this.finalMovementVector.sub(collisionResponse.multiplyScalar(dotProduct)); // Remove movement in blocked directions
+                }
+            }
+            this.characterMesh.position.x += this.finalMovementVector.x;
+            this.characterMesh.position.y += this.finalMovementVector.y;
+            this.characterMesh.position.z += this.finalMovementVector.z;
+
+            this.capsuleMesh.position.x = this.characterMesh.position.x;
+            this.capsuleMesh.position.y = this.characterMesh.position.y + 0.3;
+            this.capsuleMesh.position.z = this.characterMesh.position.z;
         }
         /*
         this.model.sceneObject.position.x = this.characterMesh.position.x;
@@ -366,10 +369,11 @@ export class Character {
         this.raycaster.set(this.characterMesh.position, this.downVector);
         const intersectsDown = this.raycaster.intersectObjects(this.levelData);
 
-        // Check if there’s a ground tile directly below within a small distance
+        //Check if there’s a ground tile directly below within a small distance
         if (!this.isOnGround && intersectsDown.length > 0 && intersectsDown[0].distance <= 0.5) {
             const groundY = intersectsDown[0].point.y;
             this.characterMesh.position.y = groundY + 0.5;
+            this.capsuleMesh.position.y = this.characterMesh.position.y + 0.3;
             this.moveY = 0;               // Reset vertical velocity
             this.isOnGround = true;           // Allow jumping again
         }
