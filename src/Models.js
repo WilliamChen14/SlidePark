@@ -28,11 +28,11 @@ export class Model {
                 });
                 // Set up AnimationMixer
                 const mixer = new THREE.AnimationMixer(gltf.scene);
-                const animation = gltf.animations[0]; // Play the first animation
-                if (animation) {
-                    const action = mixer.clipAction(animation);
-                    action.play();
-                }
+                //const animation = gltf.animations[0]; // Play the first animation
+                gltf.animations.forEach((clip) => {
+                  const action = mixer.clipAction(clip);
+                  action.play();
+                });
                 if (offsets !== undefined) {
                   if (offsets.transformOffset !== undefined) {
                     gltf.scene.position.set(
@@ -202,5 +202,10 @@ const MATERIALS = {
         color: 0x404040,
         roughness: 0.8,
         metalness: 0,
+    }),
+    "SnowmanMaterial": new THREE.MeshPhysicalMaterial({
+        color: 0xFFFFFF,
+        roughness: 0.4,
+        metalness: 0.6,
     }),
 };

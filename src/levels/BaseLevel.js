@@ -15,6 +15,7 @@ import { SplineSlide } from '../entities/SplineSlide.js';
 import { Mountain } from '../entities/Mountain.js';
 import { Cloud } from '../entities/Cloud.js';
 import { Snow } from '../entities/Snow.js';
+import { Snowman } from '../entities/Snowman.js';
 
 
 
@@ -103,6 +104,13 @@ export class BaseLevel {
         const fireplace = new Hill(this.scene, x, y, z, rotation);
         await fireplace.init();
         return fireplace;
+    }
+
+    async addSnowman(x, y, z, rotation){
+        const snowman = new Snowman(this.scene, x, y, z, rotation);
+        await snowman.init();
+        this.Signs.push(snowman);
+        return snowman;
     }
 
     addGrid(startX, endX, startZ, endZ, elementCallback) {

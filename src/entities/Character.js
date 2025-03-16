@@ -205,7 +205,8 @@ export class Character {
         }
 
 
-        this.signs.forEach(obj => obj.checkSignCollision(this.characterMesh));
+        this.signs.forEach(obj => 
+            obj.model.mixer.update(deltaTime));
 
 
         // Initialize movement allowed flags

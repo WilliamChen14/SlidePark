@@ -7,7 +7,8 @@ export class SlideHill extends BaseLevel {
         // Create a complete floor with walls
         this.addWallsAndFloorsAroundGrid(-1, 18, -1, floorSize + 1);
         this.addRocks(10, 1, 1, 0);
-        this.addHouse(10, 1, 8, 0);
+        this.addHouse(13, 1, 3, 0);
+        this.addSnowman(5, 1, 5, 0);
 
         this.addCloud(-3, 1, -2, Math.PI * 0.7);
         this.addCloud(-3, 1, 1, Math.PI * 0.5);
