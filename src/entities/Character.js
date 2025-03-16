@@ -176,7 +176,7 @@ export class Character {
 
         this.characterMesh.rotation.y = -this.yaw + Math.PI;
 
-        if (!this.isSliding && keysPressed.w || keysPressed.a || keysPressed.s || keysPressed.d) {
+        if (!this.isSliding && keysPressed.w || !this.isSliding && keysPressed.a || !this.isSliding && keysPressed.s || !this.isSliding && keysPressed.d) {
             // let baseRotationY = -this.yaw + Math.PI;
             let baseRotationY = keysPressed.p ? -this.yaw : (-this.yaw + Math.PI);
 
@@ -186,15 +186,15 @@ export class Character {
             this.characterMesh.rotation.y = baseRotationY + waddleOffset;
 
             if(!this.isSliding){
-                this.model.mixer.update(deltaTime * 15);
+                //this.model.mixer.update(deltaTime * 15);
                 this.audio.playRunSound();
             }
         } else if (keysPressed.p) {
             this.characterMesh.rotation.y = -this.yaw;
-            this.model.mixer.setTime(0);
+            //this.model.mixer.setTime(0);
             this.audio.stopRunSound();
         } else {
-            this.model.mixer.setTime(0);
+            //this.model.mixer.setTime(0);
             this.audio.stopRunSound();
         }
 

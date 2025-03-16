@@ -97,30 +97,12 @@ export class GameState {
     async resetLevel() {
         // Return if already initializing level
         if (this.isInitLevel) return;
-
-        const objectsToRemove = [];
-        this.stateManager.scene.traverse((object) => {
-            objectsToRemove.push(object);
-        });
-        objectsToRemove.forEach((object) => {
-            this.stateManager.scene.remove(object);
-        });
-    
+ 
+        this.stateManager.scene.remove(this.character.characterMesh);
         this.character = new Character(this.stateManager.scene);
         await this.character.init();
-    
+        
         console.log("Resetting level:", this.currentLevel);
-
-        this.level = new SlideHill(this.stateManager.scene);
-    
-        console.log("Rebuilding level...");
-        this.levelData = await this.level.build();
-        this.setupLighting();
-        if (this.character && this.character.characterMesh) {
-            this.character.characterMesh.position.set(0, 1, 0);
-        }
-
-        this.isInitLevel = false;
     }
 
     async changeLevel() {
@@ -217,7 +199,8 @@ export class GameState {
         }
 
         if (this.controls.keysPressed.r === true) {
-            this.levelData = [];
+            this.controls.keysPressed.r = false;
+            //this.levelData = [];
             this.resetLevel();
         }
 

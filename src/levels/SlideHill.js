@@ -8,7 +8,8 @@ export class SlideHill extends BaseLevel {
         this.addWallsAndFloorsAroundGrid(-1, 18, -1, floorSize + 1);
         this.addRocks(10, 1, 1, 0);
         this.addHouse(13, 1, 3, 0);
-        this.addSnowman(5, 1, 5, 0);
+        this.addSnowman(8, 1, 1, Math.PI/2);
+        this.addSnowman(14, 1, 6, Math.PI);
 
         this.addCloud(-3, 1, -2, Math.PI * 0.7);
         this.addCloud(-3, 1, 1, Math.PI * 0.5);
@@ -83,15 +84,6 @@ export class SlideHill extends BaseLevel {
         this.addCloud(3, -18, 71 + floorSize, Math.PI * 0.6);
         this.addCloud(0, -18, 71 + floorSize, Math.PI * 1.7);
 
-
-
-
-        this.addStoneFloor(5,1,2);
-        this.addStoneFloor(5,1,3);
-        this.addStoneFloor(6,1,3);
-        this.addStoneFloor(6,1,2);
-        this.addStoneFloor(6,2,2);
-      
         this.addHillBlock(-1.5, -19.6, 11.5);
         this.addSlideBlock(1, -0.2, 13.35);
         this.addSlideBlock(1, -1.46, 17.14);
@@ -110,7 +102,7 @@ export class SlideHill extends BaseLevel {
         this.addSlideBlock(1, -17.84, 66.41);
         this.addSlideBlock(1, -19.10, 70.20);
 
-        this.addSplineSlide(10, -6, 30, Math.PI/11);
+        this.addSplineSlide(10, -6.5, 32, Math.atan(1/3));
 
 
         this.addTree(-1, 0.5, 11.5);
@@ -123,6 +115,9 @@ export class SlideHill extends BaseLevel {
         this.addTree(-8, -6.5, 32.5);
         this.addTree(-9, -7.5, 35.5);
         this.addTree(-10, -8.5, 38.5);
+        this.addTree(5, -8.5, 38.5);
+        this.addTree(7, -8.5, 38.5);
+        this.addSnowman(6, -8.5, 38.5, Math.PI/2);
         this.addTree(-11, -9.5, 41.5);
         this.addTree(-12, -10.5, 44.5);
         this.addTree(-13, -11.5, 47.5);
