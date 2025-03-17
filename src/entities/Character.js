@@ -171,6 +171,9 @@ export class Character {
 
         if(this.isSliding){
             this.characterMesh.rotation.y = 0;
+            if(keysPressed.p){
+                this.characterMesh.rotation.y = Math.PI/2;
+            }
             this.characterMesh.rotation.x = Math.PI/2;
             console.log(this.yaw);
             this.characterMesh.rotation.z = this.yaw + Math.PI;
